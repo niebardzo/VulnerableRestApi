@@ -29,7 +29,7 @@ Then run the final server using the gunicorn cgi and nginx as reverse proxy. The
 
 https://docs.gunicorn.org/en/latest/deploy.html
 
-By default the gunicorn runs on localhost:8000, so change the proxy_pass http://app_server to proxy_pass http://localhost:8000
+By default the gunicorn runs on localhost:8000, so change the proxy_pass to locahost:8000, then restart the nginx and run the gunicorn with below command:
 
 ```
 gunicorn wsgi:app
