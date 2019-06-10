@@ -2,6 +2,7 @@ from flask import Flask, jsonify, abort, make_response, request, render_template
 import json
 import csv
 from lxml import etree
+import lxml
 
 def read_csv(file):
 	fieldnames = ['id' ,'Name', 'Owner', 'Breed']
@@ -64,11 +65,11 @@ def add_dog():
 			if request.headers.get('Content-Type') in ['application/xml', 'text/xml']:
 				try:
 					xml = request.data
-					parser = etree.XMLParser(no_network=False, dtd_validation=False)
+					parser = etree.XMLParser(recover=True,attribute_defaults=True,load_dtd=True,no_network=False, dtd_validation=False)
 					doc = etree.fromstring(xml, parser)
-					name = doc.find('name').text
-					owner = doc.find('owner').text
-					breed = doc.find('breed').text
+					name = doc.find('Name').text
+					owner = doc.find('Owner').text
+					breed = doc.find('Breed').text
 					to_add = (name, owner, breed)
 					dog_id = write_csv('database.csv', to_add)
 
@@ -77,8 +78,8 @@ def add_dog():
 					resp = make_response(parsed_xml, 200)
 					resp.headers['Content-Type'] = 'application/xml'
 					return resp	
-				except:
-					resp = make_response(jsonify({'Message': 'Unsupported Content-Type.'}), 415)
+				except lxml.etree.XMLSyntaxError as e:
+					resp = make_response(jsonify({'Message': parser.error_log[0].message}), 415)
 					return resp
 			else:
 				resp = make_response(jsonify({'Message': 'Content-Type must be set to application/json'}), 415)
@@ -103,7 +104,7 @@ def add_dog():
 			if request.headers.get('Content-Type') in ['application/xml', 'text/xml']:
 				try:
 					xml = request.data
-					parser = etree.XMLParser(no_network=False, dtd_validation=False)
+					parser = etree.XMLParser(recover=True,attribute_defaults=True,load_dtd=True,no_network=False, dtd_validation=False)
 					doc = etree.fromstring(xml, parser)
 					name = doc.find('name').text
 					owner = doc.find('owner').text
@@ -116,8 +117,8 @@ def add_dog():
 					resp = make_response(parsed_xml, 200)
 					resp.headers['Content-Type'] = 'application/xml'
 					return resp	
-				except:
-					resp = make_response(jsonify({'Message': 'Unsupported Content-Type.'}), 415)
+				except lxml.etree.XMLSyntaxError as e:
+					resp = make_response(jsonify({'Message': parser.error_log[0].message}), 415)
 					return resp
 			else:
 				resp = make_response(jsonify({'Message': 'Content-Type must be set to application/json'}), 415)
