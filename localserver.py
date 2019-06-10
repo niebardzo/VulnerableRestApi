@@ -3,7 +3,7 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
-app = Flask(__name__)
+localapp = Flask(__name__)
 auth = HTTPBasicAuth()
 
 users = {
@@ -16,7 +16,7 @@ def verify_password(username, password):
         return check_password_hash(users.get(username), password)
     return False
 
-@app.route('/')
+@localapp.route('/')
 @auth.login_required
 def index():
     if request.args.get("debug") == "True" and request.args.get("action") == "exec":
@@ -29,4 +29,4 @@ def index():
 # Localhost port 5000
 #
 if __name__ == '__main__':
-    app.run()
+    localapp.run()

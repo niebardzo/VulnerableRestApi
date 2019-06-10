@@ -127,15 +127,18 @@ def add_dog():
 			return resp
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+	resp = make_response(jsonify({'Message':'Resource do not exist.'}), 404)
+	return resp
 
-
-@app.route("/api/v2/docs", methods=['GET, '])
+@app.route("/api/v2/docs", methods=['GET', ])
 def docs_v2():
-	return 'KUPA'
+	return render_template('docs.html')
 
-@app.route("/api/docs", methods=['GET, '])
+@app.route("/api/docs", methods=['GET', ])
 def docs():
-	return 'KUPA'
+	return render_template('docs.html')
 
 if __name__ == '__main__':
 	print("Starting python app")
