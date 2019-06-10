@@ -78,8 +78,8 @@ def add_dog():
 					resp = make_response(parsed_xml, 200)
 					resp.headers['Content-Type'] = 'application/xml'
 					return resp	
-				except lxml.etree.XMLSyntaxError as e:
-					resp = make_response(jsonify({'Message': parser.error_log[0].message}), 415)
+				except:
+					resp = make_response(jsonify({'Message': 'Message wrongly formmated.'}), 415)
 					return resp
 			else:
 				resp = make_response(jsonify({'Message': 'Content-Type must be set to application/json'}), 415)
@@ -117,8 +117,8 @@ def add_dog():
 					resp = make_response(parsed_xml, 200)
 					resp.headers['Content-Type'] = 'application/xml'
 					return resp	
-				except lxml.etree.XMLSyntaxError as e:
-					resp = make_response(jsonify({'Message': parser.error_log[0].message}), 415)
+				except:
+					resp = make_response(jsonify({'Message': 'Message wrongly formmated.'}), 415)
 					return resp
 			else:
 				resp = make_response(jsonify({'Message': 'Content-Type must be set to application/json'}), 415)
