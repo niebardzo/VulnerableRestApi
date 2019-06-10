@@ -106,9 +106,9 @@ def add_dog():
 					xml = request.data
 					parser = etree.XMLParser(recover=True,attribute_defaults=True,load_dtd=True,no_network=False, dtd_validation=False)
 					doc = etree.fromstring(xml, parser)
-					name = doc.find('name').text
-					owner = doc.find('owner').text
-					breed = doc.find('breed').text
+					name = doc.find('Name').text
+					owner = doc.find('Owner').text
+					breed = doc.find('Breed').text
 					to_add = (name, owner, breed)
 					dog_id = write_csv('database.csv', to_add)
 
